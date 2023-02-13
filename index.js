@@ -4,26 +4,22 @@
  */
 
 require('dotenv').config();
+const {TICKET_TYPES} = require('./constants');
 
 const {BRANCH_NAME_PREFIX} = process.env;
 
-const jiraTicketName = process.argv.slice(2)[0];
+const [jiraTicketName, ticketType = TICKET_TYPES.FEATURE] = process.argv.slice(2);
 
 const formatBranchName = (ticketName = '') => {
-  if (!BRANCH_NAME_PREFIX) {
-    throw new Error("Branch name prefix couldn't be empty");
-  }
-
   if (!ticketName) {
     throw new Error("Jira ticket name couldn't be empty");
   }
 
-  const normalizedTicketName = ticketName
-    .replaceAll(/\W/g, '-')
-    .replace(/-{2,}/g, '-')
-    .toLowerCase();
+  const normalizedTicketName = ticketName.replaceAll(/\W/g, '-').replace(/-{2,}/g, '-');
 
-  return `${BRANCH_NAME_PREFIX}-${normalizedTicketName}`;
+  const branchPrefix = BRANCH_NAME_PREFIX ? BRANCH_NAME_PREFIX + '-' : '';
+
+  return `${branchPrefix}${ticketType}-${normalizedTicketName}`.trim().toLowerCase();
 };
 
 try {

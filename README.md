@@ -1,6 +1,6 @@
 # Git branch naming util
 
-The utils takes Jira ticket name (1 argument) and returns formatted branch name.
+The utils takes Jira ticket's name and the ticket's type (2 argument, optional. `feature` by default) and returns formatted branch name.
 
 Under _formatted branch name_ means that:
 
@@ -15,4 +15,10 @@ Installed `Node.js` and `yarn` module.
 
 ```javascript
 node ./index.js 'Test Jira ticket: update logo'
+
+// returns -> 'feature-test-jira-ticket-update-logo'
+
+node ./index.js 'Test Jira ticket: update logo' fix
+
+// returns -> 'fix-test-jira-ticket-update-logo'
 ```
